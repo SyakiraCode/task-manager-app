@@ -1,14 +1,5 @@
 @import '../../../main-styles.scss';
 
-.center-content
-{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
 .task-manager-container{
   display: flex;
   width: 100%;
@@ -29,19 +20,22 @@
 
 .task-list-container {
   display: flex;
+  position: relative;
   flex-direction: column;
   flex-grow: 1;
   padding: 42px;
 
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
-}
 
-.title {
-  font-family: 'Lato';
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  .top-bar {
+    margin-bottom: 20px;
+    display: flex;
+    .title {
+        flex-grow: 1;
+        margin: 0;
+    }
+}
 }
 
 .list-menu{
@@ -76,22 +70,55 @@
   border-radius: 5px;
   margin-top: 10px;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  align-items: center;
 
   &:not(.complete){
     cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:active {
       transform: scale(0.95);
     }
     &:hover{
       box-shadow: 0 0 0 5px #eeeeee;
+      .task-buttons {
+        opacity: 1;
+        transform: scale(1);
+    }
     }
   }
 
 
-  &.complete {
+  &.complete .task-text {
     text-decoration: line-through;
     opacity: 0.8;
   }
+
+  .task-text {
+    display: flex;
+    flex-grow: 1;
 }
+
+.task-buttons {
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+    transform: scale(0.85);
+}
+}
+
+.circle-add-button {
+  position: absolute;
+  bottom: 35px;
+  right: 35px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.empty-state-text {
+  font-size: 20px;
+  color: #777;
+  text-align: center;
+}
+
 
 
