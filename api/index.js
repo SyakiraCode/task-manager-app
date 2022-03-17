@@ -11,6 +11,19 @@ const { Task } = require("./db/models/task.model");
 //Load middleware
 app.use(bodyParser.json());
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 // ROUTE HANDLES
 // LIST ROUTES
 
@@ -47,7 +60,7 @@ app.patch("/lists/:id", (req, res) => {
       $set: req.body,
     }
   ).then(() => {
-    res.sendStatus(200);
+    res.send({ message: "Updated Successfully" });
   });
 });
 
@@ -66,12 +79,10 @@ app.get("/lists/:listId/tasks", (req, res) => {
 });
 
 app.get("/lists/:listId/tasks/:taskId", (req, res) => {
-  Task.findOne(
-    {
-      _id: req.params.taskId,
-      _listId: req.params.listId,
-    }
-  ).then((task) => {
+  Task.findOne({
+    _id: req.params.taskId,
+    _listId: req.params.listId,
+  }).then((task) => {
     res.send(task);
   });
 });
@@ -96,16 +107,16 @@ app.patch("/lists/:listId/tasks/:taskId", (req, res) => {
       $set: req.body,
     }
   ).then(() => {
-    res.sendStatus(200);
+    res.send({ message: "Updated Successfully" });
   });
 });
 
 app.delete("/lists/:listId/tasks/:taskId", (req, res) => {
   //delete the specified task
-  Task.findOneAndRemove({ 
+  Task.findOneAndRemove({
     _id: req.params.taskId,
-    _listId: req.params.listId
-   }).then((removedListDoc) => {
+    _listId: req.params.listId,
+  }).then((removedListDoc) => {
     res.send(removedListDoc);
   });
 });
